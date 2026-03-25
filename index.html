@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TaskPro — The AI-powered task management workspace. Plan, collaborate, and ship faster with intelligent tools built for modern teams.">
+  <title>TaskPro — AI-Powered Task Management</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='8' y='8' width='38' height='38' rx='10' fill='%237c3aed'/><rect x='54' y='8' width='38' height='38' rx='10' fill='%237c3aed' opacity='0.5'/><rect x='8' y='54' width='38' height='38' rx='10' fill='%237c3aed' opacity='0.5'/><rect x='54' y='54' width='38' height='38' rx='10' fill='%237c3aed'/></svg>">
+</head>
+<body>
+
+  <!-- ========== 1. NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#" class="nav-logo" aria-label="TaskPro Home">
+        <div class="logo-icon">
+          <svg viewBox="0 0 100 100" fill="none" width="24" height="24">
+            <rect x="8" y="8" width="38" height="38" rx="10" fill="white"/>
+            <rect x="54" y="8" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="8" y="54" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="54" y="54" width="38" height="38" rx="10" fill="white"/>
+          </svg>
+        </div>
+        <span class="logo-text">TaskPro</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Testimonials</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-ghost" id="openModalBtn" aria-label="Sign In">Sign In</button>
+        <a href="#pricing" class="btn btn-primary">Get Started</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== 2. HERO SECTION ========== -->
+  <section class="hero" id="hero">
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+      <div class="hero-badge reveal">
+        <span class="badge-dot"></span>
+        Now with AI-Powered Planning
+      </div>
+      <h1 class="reveal">
+        Build Faster with<br>
+        <span class="gradient-text">AI Collaboration</span>
+      </h1>
+      <p class="hero-sub reveal">
+        TaskPro is the all-in-one workspace that helps teams plan, track, and ship products with the power of artificial intelligence. No more tool sprawl.
+      </p>
+      <div class="hero-actions reveal">
+        <a href="#pricing" class="btn btn-primary btn-lg">
+          Get Started Free
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <button class="btn btn-secondary btn-lg" id="watchDemoBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Watch Demo
+        </button>
+      </div>
+      <div class="hero-trusted reveal">
+        <span>Trusted by teams at</span>
+        <div class="trusted-logos">
+          <span class="trusted-brand">Google</span>
+          <span class="trusted-brand">Stripe</span>
+          <span class="trusted-brand">Vercel</span>
+          <span class="trusted-brand">Linear</span>
+          <span class="trusted-brand">Notion</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 3. STATS BAR ========== -->
+  <section class="stats-bar" id="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <div class="stat-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="stat-number" data-target="50000">0</div>
+          <div class="stat-label">Teams Worldwide</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item reveal">
+          <div class="stat-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="stat-number" data-target="200">0</div>
+          <div class="stat-label">Integrations</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item reveal">
+          <div class="stat-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="stat-number" data-target="99.9" data-suffix="%" data-decimal="true">0</div>
+          <div class="stat-label">Uptime SLA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 4. BENTO FEATURE GRID ========== -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Features</span>
+        <h2>Everything you need,<br><span class="gradient-text">one platform</span></h2>
+        <p>Powerful tools designed to replace your entire SaaS stack. Built for speed, clarity, and collaboration.</p>
+      </div>
+      <div class="bento-grid">
+        <div class="bento-card bento-lg reveal" id="bento1">
+          <div class="bento-icon purple">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Real-time Collaboration</h3>
+          <p>Work together seamlessly with live cursors, instant comments, @mentions, and shared editing. See changes as they happen across your entire team.</p>
+          <div class="bento-visual collab-visual">
+            <div class="collab-cursor c1"><span>Sarah</span></div>
+            <div class="collab-cursor c2"><span>Alex</span></div>
+            <div class="collab-cursor c3"><span>Mike</span></div>
+          </div>
+        </div>
+        <div class="bento-card bento-sm reveal" id="bento2">
+          <div class="bento-icon cyan">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h3>AI Docs</h3>
+          <p>AI-powered documents that write, summarize, and organize themselves. Draft PRDs and specs in seconds.</p>
+        </div>
+        <div class="bento-card bento-sm reveal" id="bento3">
+          <div class="bento-icon pink">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h3>Smart Search</h3>
+          <p>Find any task, doc, or conversation instantly with AI-powered semantic search across your workspace.</p>
+        </div>
+        <div class="bento-card bento-sm reveal" id="bento4">
+          <div class="bento-icon green">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <h3>Team Spaces</h3>
+          <p>Organized workspaces for every team with custom permissions, views, and workflows.</p>
+        </div>
+        <div class="bento-card bento-lg reveal" id="bento5">
+          <div class="bento-icon amber">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <h3>Whiteboard</h3>
+          <p>Infinite canvas for brainstorming, user flows, and architecture diagrams. Convert sticky notes directly into actionable tasks with one click.</p>
+          <div class="bento-visual whiteboard-visual">
+            <div class="wb-shape wb-1"></div>
+            <div class="wb-shape wb-2"></div>
+            <div class="wb-shape wb-3"></div>
+            <div class="wb-line"></div>
+          </div>
+        </div>
+        <div class="bento-card bento-sm reveal" id="bento6">
+          <div class="bento-icon red">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3>200+ Integrations</h3>
+          <p>Connect with GitHub, Slack, Figma, Linear, and 200+ more tools your team already uses.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 5. HOW IT WORKS ========== -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">How It Works</span>
+        <h2>Get started in <span class="gradient-text-2">3 simple steps</span></h2>
+        <p>From zero to productive in under five minutes. No complex setup required.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-line" id="timelineLine"></div>
+        <div class="timeline-step reveal" data-step="1">
+          <div class="step-number">01</div>
+          <div class="step-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Create Your Workspace</h3>
+          <p>Set up your project with templates or start from scratch. AI structures your workspace automatically.</p>
+        </div>
+        <div class="timeline-step reveal" data-step="2">
+          <div class="step-number">02</div>
+          <div class="step-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          </div>
+          <h3>Invite Your Team</h3>
+          <p>Add teammates with one click. AI assigns tasks based on skills, availability, and past performance.</p>
+        </div>
+        <div class="timeline-step reveal" data-step="3">
+          <div class="step-number">03</div>
+          <div class="step-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3>Ship & Measure</h3>
+          <p>Track velocity with smart dashboards and celebrate wins. AI predicts bottlenecks before they happen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 6. TESTIMONIALS ========== -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Testimonials</span>
+        <h2>Loved by <span class="gradient-text-2">50,000+ teams</span></h2>
+        <p>See why top companies choose TaskPro for their workflow.</p>
+      </div>
+    </div>
+    <div class="marquee-wrapper" id="marqueeWrapper">
+      <div class="marquee-track" id="marqueeTrack">
+        <!-- Row 1 -->
+        <div class="testimonial-card">
+          <div class="tc-stars">★★★★★</div>
+          <p>"TaskPro's AI planning saved our team 15 hours per sprint. The auto-assignment feature alone is a game-changer."</p>
+          <div class="tc-author">
+            <div class="tc-avatar" style="background:#7c3aed">SJ</div>
+            <div><strong>Sarah Jenkins</strong><br><span>VP Engineering, CloudScale</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="tc-stars">★★★★★</div>
+          <p>"We ditched three separate tools when we switched to TaskPro. Boards, docs, and whiteboards in one place is incredible."</p>
+          <div class="tc-author">
+            <div class="tc-avatar" style="background:#06b6d4">MR</div>
+            <div><strong>Marcus Rivera</strong><br><span>Product Lead, NexGen Labs</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="tc-stars">★★★★★</div>
+          <p>"The smart search finds anything in seconds. It's like having a team member who remembers every decision."</p>
+          <div class="tc-author">
+            <div class="tc-avatar" style="background:#f472b6">AK</div>
+            <div><strong>Aisha Khan</strong><br><span>Design Director, Pixelforge</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="tc-stars">★★★★★</div>
+          <p>"Switching from Jira to TaskPro cut our onboarding time from 2 weeks to 2 hours. The UX is phenomenal."</p>
+          <div class="tc-author">
+            <div class="tc-avatar" style="background:#34d399">JP</div>
+            <div><strong>James Park</strong><br><span>CTO, Launchpad.io</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="tc-stars">★★★★★</div>
+          <p>"Our velocity increased 40% in the first month. The AI suggestions are spookily accurate."</p>
+          <div class="tc-author">
+            <div class="tc-avatar" style="background:#f59e0b">LW</div>
+            <div><strong>Lisa Wang</strong><br><span>Engineering Manager, FinStack</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="tc-stars">★★★★★</div>
+          <p>"Best tool we've adopted this year. Real-time collaboration on docs and boards simultaneously is mind-blowing."</p>
+          <div class="tc-author">
+            <div class="tc-avatar" style="background:#ef4444">DP</div>
+            <div><strong>David Patel</strong><br><span>Head of Product, Synthwave</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 7. PRICING ========== -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Pricing</span>
+        <h2>Simple, transparent <span class="gradient-text-3">pricing</span></h2>
+        <p>Start free. Upgrade when your team grows. No hidden fees.</p>
+      </div>
+      <div class="pricing-grid">
+        <!-- Free -->
+        <div class="price-card reveal">
+          <div class="price-tier">Free</div>
+          <div class="price-amount">$0 <span>/month</span></div>
+          <p class="price-desc">Perfect for individuals and small side projects.</p>
+          <ul class="price-features">
+            <li><span class="check">✓</span> Up to 5 team members</li>
+            <li><span class="check">✓</span> 3 projects</li>
+            <li><span class="check">✓</span> Basic boards & docs</li>
+            <li><span class="check">✓</span> 1GB storage</li>
+            <li><span class="check">✓</span> Community support</li>
+          </ul>
+          <button class="btn btn-secondary btn-block">Get Started</button>
+        </div>
+        <!-- Pro -->
+        <div class="price-card popular reveal">
+          <div class="popular-badge">Most Popular</div>
+          <div class="price-tier">Pro</div>
+          <div class="price-amount">$12 <span>/user/mo</span></div>
+          <p class="price-desc">For growing teams that need full AI power.</p>
+          <ul class="price-features">
+            <li><span class="check">✓</span> Unlimited members</li>
+            <li><span class="check">✓</span> Unlimited projects</li>
+            <li><span class="check">✓</span> AI planning & search</li>
+            <li><span class="check">✓</span> Whiteboards & analytics</li>
+            <li><span class="check">✓</span> 100GB storage</li>
+            <li><span class="check">✓</span> Priority support</li>
+          </ul>
+          <button class="btn btn-primary btn-block">Start Free Trial</button>
+        </div>
+        <!-- Enterprise -->
+        <div class="price-card reveal">
+          <div class="price-tier">Enterprise</div>
+          <div class="price-amount">Custom</div>
+          <p class="price-desc">For large organizations needing SSO, compliance & SLA.</p>
+          <ul class="price-features">
+            <li><span class="check">✓</span> Everything in Pro</li>
+            <li><span class="check">✓</span> SSO & SAML</li>
+            <li><span class="check">✓</span> 99.99% SLA</li>
+            <li><span class="check">✓</span> Unlimited storage</li>
+            <li><span class="check">✓</span> Dedicated success manager</li>
+            <li><span class="check">✓</span> Custom integrations</li>
+          </ul>
+          <button class="btn btn-secondary btn-block">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 8. FINAL CTA ========== -->
+  <section class="final-cta">
+    <div class="cta-glow"></div>
+    <div class="container">
+      <div class="cta-content reveal">
+        <h2>Ready to transform<br>how your team works?</h2>
+        <p>Join 50,000+ teams shipping faster with TaskPro. No credit card required.</p>
+        <a href="#pricing" class="btn btn-primary btn-lg cta-glow-btn">
+          Start Building Today
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 9. FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo">
+            <div class="logo-icon">
+              <svg viewBox="0 0 100 100" fill="none" width="22" height="22">
+                <rect x="8" y="8" width="38" height="38" rx="10" fill="white"/>
+                <rect x="54" y="8" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+                <rect x="8" y="54" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+                <rect x="54" y="54" width="38" height="38" rx="10" fill="white"/>
+              </svg>
+            </div>
+            <span class="logo-text">TaskPro</span>
+          </a>
+          <p>The AI-powered workspace for modern teams. Plan, collaborate, and ship faster — together.</p>
+          <div class="footer-socials">
+            <a href="#" aria-label="Twitter">𝕏</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="GitHub">⌨</a>
+            <a href="#" aria-label="YouTube">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#">Integrations</a></li>
+            <li><a href="#">Changelog</a></li>
+            <li><a href="#">API Docs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Press Kit</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Community</a></li>
+            <li><a href="#">Templates</a></li>
+            <li><a href="#">Webinars</a></li>
+            <li><a href="#">Status</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 TaskPro. All rights reserved.</span>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Settings</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== 10. LOGIN MODAL ========== -->
+  <div class="modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-label="Sign In">
+    <div class="modal-card">
+      <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">&times;</button>
+      <div class="modal-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 100 100" fill="none" width="28" height="28">
+            <rect x="8" y="8" width="38" height="38" rx="10" fill="white"/>
+            <rect x="54" y="8" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="8" y="54" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="54" y="54" width="38" height="38" rx="10" fill="white"/>
+          </svg>
+        </div>
+      </div>
+      <h2>Welcome back</h2>
+      <p class="modal-sub">Sign in to your TaskPro workspace</p>
+      <form id="modalLoginForm" novalidate>
+        <div class="modal-field">
+          <label for="modalEmail">Email address</label>
+          <input type="email" id="modalEmail" placeholder="you@company.com" required>
+        </div>
+        <div class="modal-field">
+          <label for="modalPassword">Password</label>
+          <input type="password" id="modalPassword" placeholder="Enter your password" required>
+        </div>
+        <div class="modal-extras">
+          <label class="modal-check"><input type="checkbox" checked> Remember me</label>
+          <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="modalSubmitBtn">Sign In</button>
+      </form>
+      <div class="modal-divider"><span>or continue with</span></div>
+      <div class="modal-social-btns">
+        <button class="btn-social-modal" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Google
+        </button>
+        <button class="btn-social-modal" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </button>
+      </div>
+      <p class="modal-signup">No account? <a href="login.html">Create one free</a></p>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

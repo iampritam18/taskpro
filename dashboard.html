@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TaskPro Dashboard — Manage your projects, track progress, and collaborate with your team.">
+  <title>Dashboard — TaskPro</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='8' y='8' width='38' height='38' rx='10' fill='%237c3aed'/><rect x='54' y='8' width='38' height='38' rx='10' fill='%237c3aed' opacity='0.5'/><rect x='8' y='54' width='38' height='38' rx='10' fill='%237c3aed' opacity='0.5'/><rect x='54' y='54' width='38' height='38' rx='10' fill='%237c3aed'/></svg>">
+</head>
+<body>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <svg viewBox="0 0 100 100" fill="none" width="22" height="22">
+            <rect x="8" y="8" width="38" height="38" rx="10" fill="white"/>
+            <rect x="54" y="8" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="8" y="54" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="54" y="54" width="38" height="38" rx="10" fill="white"/>
+          </svg>
+        </div>
+        <span class="sidebar-logo-text">TaskPro</span>
+      </a>
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="11 17 6 12 11 7"></polyline>
+          <polyline points="18 17 13 12 18 7"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="#" class="nav-item active" data-tooltip="Dashboard">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-tooltip="Projects">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+        <span class="nav-label">Projects</span>
+      </a>
+      <a href="#" class="nav-item" data-tooltip="My Tasks">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+        <span class="nav-label">My Tasks</span>
+      </a>
+      <a href="#" class="nav-item" data-tooltip="Calendar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span class="nav-label">Calendar</span>
+      </a>
+
+      <div class="nav-section-label">Workspace</div>
+      <a href="#" class="nav-item" data-tooltip="Analytics">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span class="nav-label">Analytics</span>
+      </a>
+      <a href="#" class="nav-item" data-tooltip="Team">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span class="nav-label">Team</span>
+      </a>
+      <a href="#" class="nav-item" data-tooltip="Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span class="nav-label">Settings</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar">P</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Pritam</div>
+          <div class="sidebar-user-role">Admin</div>
+        </div>
+        <a href="login.html" class="sidebar-logout" title="Log out">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main-content" id="mainContent">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="searchInput" placeholder="Search tasks, projects, team members...">
+        <kbd>⌘K</kbd>
+      </div>
+      <div class="topbar-actions">
+        <button class="topbar-btn" id="notifBtn" aria-label="Notifications">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span class="notif-badge">3</span>
+        </button>
+        <button class="topbar-btn" aria-label="Help">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+
+      <!-- Welcome Header -->
+      <div class="welcome-section anim-fade-up">
+        <div class="welcome-text">
+          <h1>Good afternoon, <span class="gradient-text">Pritam</span> 👋</h1>
+          <p>Here's what's happening with your projects today.</p>
+        </div>
+        <button class="btn-new-project" id="newProjectBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Project
+        </button>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="stats-grid">
+        <div class="stat-card anim-fade-up" style="--delay: 0.05s">
+          <div class="stat-card-header">
+            <div class="stat-icon purple">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            </div>
+            <span class="stat-trend up">↑ 12%</span>
+          </div>
+          <div class="stat-value" data-target="124">0</div>
+          <div class="stat-label">Total Tasks</div>
+          <div class="stat-bar"><div class="stat-bar-fill purple" style="width: 78%"></div></div>
+        </div>
+
+        <div class="stat-card anim-fade-up" style="--delay: 0.1s">
+          <div class="stat-card-header">
+            <div class="stat-icon cyan">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+            </div>
+            <span class="stat-trend up">↑ 8%</span>
+          </div>
+          <div class="stat-value" data-target="42">0</div>
+          <div class="stat-label">In Progress</div>
+          <div class="stat-bar"><div class="stat-bar-fill cyan" style="width: 54%"></div></div>
+        </div>
+
+        <div class="stat-card anim-fade-up" style="--delay: 0.15s">
+          <div class="stat-card-header">
+            <div class="stat-icon green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <span class="stat-trend up">↑ 24%</span>
+          </div>
+          <div class="stat-value" data-target="67">0</div>
+          <div class="stat-label">Completed</div>
+          <div class="stat-bar"><div class="stat-bar-fill green" style="width: 67%"></div></div>
+        </div>
+
+        <div class="stat-card anim-fade-up" style="--delay: 0.2s">
+          <div class="stat-card-header">
+            <div class="stat-icon red">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <span class="stat-trend down">↑ 3%</span>
+          </div>
+          <div class="stat-value" data-target="15">0</div>
+          <div class="stat-label">Overdue</div>
+          <div class="stat-bar"><div class="stat-bar-fill red" style="width: 22%"></div></div>
+        </div>
+      </div>
+
+      <!-- Kanban Board -->
+      <div class="section-title anim-fade-up" style="--delay: 0.25s">
+        <h2>Project Board</h2>
+        <div class="section-actions">
+          <button class="filter-btn active">All</button>
+          <button class="filter-btn">Design</button>
+          <button class="filter-btn">Frontend</button>
+          <button class="filter-btn">Backend</button>
+        </div>
+      </div>
+
+      <div class="kanban-board anim-fade-up" style="--delay: 0.3s">
+        <!-- To Do Column -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <div class="kanban-col-title">
+              <span class="col-dot purple"></span>
+              To Do
+            </div>
+            <span class="kanban-count">4</span>
+          </div>
+          <div class="kanban-cards">
+            <div class="kanban-card">
+              <div class="kanban-card-top">
+                <span class="kanban-tag purple">Design</span>
+                <span class="kanban-priority high" title="High priority">!!!</span>
+              </div>
+              <h4>Design system components</h4>
+              <p>Create reusable UI component library with tokens and variants</p>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#7c3aed">A</div>
+                  <div class="kanban-avatar" style="background:#06b6d4">R</div>
+                </div>
+                <div class="kanban-meta">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                  Mar 28
+                </div>
+              </div>
+            </div>
+            <div class="kanban-card">
+              <div class="kanban-card-top">
+                <span class="kanban-tag cyan">Backend</span>
+                <span class="kanban-priority medium" title="Medium priority">!!</span>
+              </div>
+              <h4>REST API documentation</h4>
+              <p>Write OpenAPI specs for all endpoints</p>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#f472b6">S</div>
+                </div>
+                <div class="kanban-meta">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                  Mar 30
+                </div>
+              </div>
+            </div>
+            <div class="kanban-card">
+              <div class="kanban-card-top">
+                <span class="kanban-tag pink">Marketing</span>
+                <span class="kanban-priority low" title="Low priority">!</span>
+              </div>
+              <h4>Launch blog post</h4>
+              <p>Write announcement post for v2.0 release</p>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#34d399">M</div>
+                </div>
+                <div class="kanban-meta">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                  Apr 2
+                </div>
+              </div>
+            </div>
+            <div class="kanban-card">
+              <div class="kanban-card-top">
+                <span class="kanban-tag cyan">Backend</span>
+                <span class="kanban-priority medium" title="Medium priority">!!</span>
+              </div>
+              <h4>Database migration scripts</h4>
+              <p>Add migration for new user preferences schema</p>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#06b6d4">R</div>
+                </div>
+                <div class="kanban-meta">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                  Apr 1
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- In Progress Column -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <div class="kanban-col-title">
+              <span class="col-dot cyan"></span>
+              In Progress
+            </div>
+            <span class="kanban-count">3</span>
+          </div>
+          <div class="kanban-cards">
+            <div class="kanban-card highlight">
+              <div class="kanban-card-top">
+                <span class="kanban-tag pink">Frontend</span>
+                <span class="kanban-ai-badge">🤖 AI Assigned</span>
+              </div>
+              <h4>User authentication flow</h4>
+              <p>Implement OAuth 2.0 with Google & GitHub providers</p>
+              <div class="kanban-progress">
+                <div class="kanban-progress-bar" style="width: 65%"></div>
+              </div>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#7c3aed">P</div>
+                  <div class="kanban-avatar" style="background:#f472b6">S</div>
+                </div>
+                <div class="kanban-meta">65%</div>
+              </div>
+            </div>
+            <div class="kanban-card">
+              <div class="kanban-card-top">
+                <span class="kanban-tag cyan">Backend</span>
+                <span class="kanban-priority high" title="High priority">!!!</span>
+              </div>
+              <h4>Payment integration</h4>
+              <p>Stripe integration for subscription billing</p>
+              <div class="kanban-progress">
+                <div class="kanban-progress-bar" style="width: 40%"></div>
+              </div>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#06b6d4">R</div>
+                </div>
+                <div class="kanban-meta">40%</div>
+              </div>
+            </div>
+            <div class="kanban-card">
+              <div class="kanban-card-top">
+                <span class="kanban-tag purple">Design</span>
+                <span class="kanban-priority medium" title="Medium priority">!!</span>
+              </div>
+              <h4>Mobile responsive layouts</h4>
+              <p>Adapt all pages for tablet and mobile breakpoints</p>
+              <div class="kanban-progress">
+                <div class="kanban-progress-bar" style="width: 80%"></div>
+              </div>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#7c3aed">A</div>
+                </div>
+                <div class="kanban-meta">80%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Done Column -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <div class="kanban-col-title">
+              <span class="col-dot green"></span>
+              Done
+            </div>
+            <span class="kanban-count">3</span>
+          </div>
+          <div class="kanban-cards">
+            <div class="kanban-card done">
+              <div class="kanban-card-top">
+                <span class="kanban-tag green">DevOps</span>
+                <span class="kanban-done-check">✓</span>
+              </div>
+              <h4>CI/CD pipeline setup</h4>
+              <p>GitHub Actions workflow with auto-deploy</p>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#34d399">M</div>
+                </div>
+                <div class="kanban-meta">Completed</div>
+              </div>
+            </div>
+            <div class="kanban-card done">
+              <div class="kanban-card-top">
+                <span class="kanban-tag green">DevOps</span>
+                <span class="kanban-done-check">✓</span>
+              </div>
+              <h4>Project repository setup</h4>
+              <p>Monorepo structure with linting and testing</p>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#06b6d4">R</div>
+                  <div class="kanban-avatar" style="background:#34d399">M</div>
+                </div>
+                <div class="kanban-meta">Completed</div>
+              </div>
+            </div>
+            <div class="kanban-card done">
+              <div class="kanban-card-top">
+                <span class="kanban-tag green">Design</span>
+                <span class="kanban-done-check">✓</span>
+              </div>
+              <h4>Brand guidelines v2</h4>
+              <p>Updated color palette, typography, and icon set</p>
+              <div class="kanban-card-footer">
+                <div class="kanban-avatars">
+                  <div class="kanban-avatar" style="background:#7c3aed">A</div>
+                </div>
+                <div class="kanban-meta">Completed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row -->
+      <div class="bottom-grid">
+
+        <!-- Activity Timeline -->
+        <div class="panel activity-panel anim-fade-up" style="--delay: 0.35s">
+          <div class="panel-header">
+            <h3>Recent Activity</h3>
+            <a href="#" class="panel-link">View all</a>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-avatar" style="background:#7c3aed">P</div>
+              <div class="activity-body">
+                <p><strong>Pritam</strong> completed <span class="activity-highlight">CI/CD pipeline setup</span></p>
+                <span class="activity-time">2 minutes ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-avatar" style="background:#06b6d4">R</div>
+              <div class="activity-body">
+                <p><strong>Rahul</strong> commented on <span class="activity-highlight">Payment integration</span></p>
+                <span class="activity-time">15 minutes ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-avatar" style="background:#f472b6">S</div>
+              <div class="activity-body">
+                <p><strong>Sneha</strong> moved <span class="activity-highlight">User auth flow</span> to In Progress</p>
+                <span class="activity-time">1 hour ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-avatar" style="background:#34d399">M</div>
+              <div class="activity-body">
+                <p><strong>Mike</strong> created a new project <span class="activity-highlight">Mobile App v3</span></p>
+                <span class="activity-time">3 hours ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-avatar" style="background:#7c3aed">A</div>
+              <div class="activity-body">
+                <p><strong>Ananya</strong> uploaded <span class="activity-highlight">Brand guidelines v2.pdf</span></p>
+                <span class="activity-time">5 hours ago</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Members -->
+        <div class="panel team-panel anim-fade-up" style="--delay: 0.4s">
+          <div class="panel-header">
+            <h3>Team Members</h3>
+            <a href="#" class="panel-link">Manage</a>
+          </div>
+          <div class="team-list">
+            <div class="team-member">
+              <div class="team-avatar-wrap">
+                <div class="team-avatar" style="background:#7c3aed">P</div>
+                <span class="team-status online"></span>
+              </div>
+              <div class="team-info">
+                <div class="team-name">Pritam Rout</div>
+                <div class="team-role">Full Stack Developer</div>
+              </div>
+              <span class="team-tasks">8 tasks</span>
+            </div>
+            <div class="team-member">
+              <div class="team-avatar-wrap">
+                <div class="team-avatar" style="background:#06b6d4">R</div>
+                <span class="team-status online"></span>
+              </div>
+              <div class="team-info">
+                <div class="team-name">Rahul Sharma</div>
+                <div class="team-role">Backend Engineer</div>
+              </div>
+              <span class="team-tasks">6 tasks</span>
+            </div>
+            <div class="team-member">
+              <div class="team-avatar-wrap">
+                <div class="team-avatar" style="background:#f472b6">S</div>
+                <span class="team-status online"></span>
+              </div>
+              <div class="team-info">
+                <div class="team-name">Sneha Patel</div>
+                <div class="team-role">Frontend Developer</div>
+              </div>
+              <span class="team-tasks">5 tasks</span>
+            </div>
+            <div class="team-member">
+              <div class="team-avatar-wrap">
+                <div class="team-avatar" style="background:#7c3aed">A</div>
+                <span class="team-status away"></span>
+              </div>
+              <div class="team-info">
+                <div class="team-name">Ananya Das</div>
+                <div class="team-role">UI/UX Designer</div>
+              </div>
+              <span class="team-tasks">4 tasks</span>
+            </div>
+            <div class="team-member">
+              <div class="team-avatar-wrap">
+                <div class="team-avatar" style="background:#34d399">M</div>
+                <span class="team-status offline"></span>
+              </div>
+              <div class="team-info">
+                <div class="team-name">Mike Johnson</div>
+                <div class="team-role">DevOps Engineer</div>
+              </div>
+              <span class="team-tasks">3 tasks</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
