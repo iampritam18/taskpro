@@ -34,33 +34,38 @@
 
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-      <a href="#" class="nav-item active" data-tooltip="Dashboard">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-        <span class="nav-label">Dashboard</span>
+      <a href="dashboard.html" class="nav-item active">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
       </a>
-      <a href="#" class="nav-item" data-tooltip="Projects">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-        <span class="nav-label">Projects</span>
+      <a href="projects.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        <span>Projects</span>
       </a>
-      <a href="#" class="nav-item" data-tooltip="My Tasks">
+      <a href="#" class="nav-item" id="navMyTasks" data-tooltip="My Tasks">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
         <span class="nav-label">My Tasks</span>
       </a>
-      <a href="#" class="nav-item" data-tooltip="Calendar">
+      <a href="calendar.html" class="nav-item" id="navCalendar" data-tooltip="Calendar">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         <span class="nav-label">Calendar</span>
       </a>
 
-      <div class="nav-section-label">Workspace</div>
-      <a href="#" class="nav-item" data-tooltip="Analytics">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-        <span class="nav-label">Analytics</span>
+      <div class="nav-section-label">Projects</div>
+      <div id="sidebarProjectList">
+        <!-- Projects will be injected here -->
+        <div class="nav-item loading-nav">Loading projects...</div>
+      </div>
+
+      <a href="analytics.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span>Analytics</span>
       </a>
-      <a href="#" class="nav-item" data-tooltip="Team">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-        <span class="nav-label">Team</span>
+      <a href="team.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Team</span>
       </a>
-      <a href="#" class="nav-item" data-tooltip="Settings">
+      <a href="#" class="nav-item" id="navSettings" data-tooltip="Settings">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         <span class="nav-label">Settings</span>
       </a>
@@ -68,9 +73,9 @@
 
     <div class="sidebar-footer">
       <div class="sidebar-user">
-        <div class="sidebar-user-avatar">P</div>
+        <div class="sidebar-user-avatar" id="userAvatar">U</div>
         <div class="sidebar-user-info">
-          <div class="sidebar-user-name">Pritam</div>
+          <div class="sidebar-user-name" id="userName">User</div>
           <div class="sidebar-user-role">Admin</div>
         </div>
         <a href="login.html" class="sidebar-logout" title="Log out">
@@ -90,8 +95,9 @@
       </button>
       <div class="topbar-search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="searchInput" placeholder="Search tasks, projects, team members...">
+        <input type="text" id="searchInput" placeholder="Search tasks, projects, team members..." autocomplete="off">
         <kbd>⌘K</kbd>
+        <div id="searchResults" class="search-results-dropdown hidden"></div>
       </div>
       <div class="topbar-actions">
         <button class="topbar-btn" id="notifBtn" aria-label="Notifications">
@@ -108,14 +114,18 @@
     <div class="dashboard-content">
 
       <!-- Welcome Header -->
-      <div class="welcome-section anim-fade-up">
-        <div class="welcome-text">
-          <h1>Good afternoon, <span class="gradient-text">Pritam</span> 👋</h1>
-          <p>Here's what's happening with your projects today.</p>
+      <div class="welcome-section">
+        <div>
+          <h1 id="dashboardTitle">Welcome back, <span id="welcomeName">User</span></h1>
+          <p id="dashboardSubtitle">Here's what's happening with your projects today.</p>
+          <button id="clearProjectFilter" class="btn btn-ghost hidden" style="margin-top: 8px; font-size: 0.8rem; padding: 4px 12px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            Clear Filter
+          </button>
         </div>
-        <button class="btn-new-project" id="newProjectBtn">
+        <button class="btn-new-project" id="newTaskBtn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          New Project
+          New Task
         </button>
       </div>
 
@@ -191,76 +201,9 @@
             </div>
             <span class="kanban-count">4</span>
           </div>
-          <div class="kanban-cards">
-            <div class="kanban-card">
-              <div class="kanban-card-top">
-                <span class="kanban-tag purple">Design</span>
-                <span class="kanban-priority high" title="High priority">!!!</span>
-              </div>
-              <h4>Design system components</h4>
-              <p>Create reusable UI component library with tokens and variants</p>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#7c3aed">A</div>
-                  <div class="kanban-avatar" style="background:#06b6d4">R</div>
-                </div>
-                <div class="kanban-meta">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-                  Mar 28
-                </div>
-              </div>
-            </div>
-            <div class="kanban-card">
-              <div class="kanban-card-top">
-                <span class="kanban-tag cyan">Backend</span>
-                <span class="kanban-priority medium" title="Medium priority">!!</span>
-              </div>
-              <h4>REST API documentation</h4>
-              <p>Write OpenAPI specs for all endpoints</p>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#f472b6">S</div>
-                </div>
-                <div class="kanban-meta">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-                  Mar 30
-                </div>
-              </div>
-            </div>
-            <div class="kanban-card">
-              <div class="kanban-card-top">
-                <span class="kanban-tag pink">Marketing</span>
-                <span class="kanban-priority low" title="Low priority">!</span>
-              </div>
-              <h4>Launch blog post</h4>
-              <p>Write announcement post for v2.0 release</p>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#34d399">M</div>
-                </div>
-                <div class="kanban-meta">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-                  Apr 2
-                </div>
-              </div>
-            </div>
-            <div class="kanban-card">
-              <div class="kanban-card-top">
-                <span class="kanban-tag cyan">Backend</span>
-                <span class="kanban-priority medium" title="Medium priority">!!</span>
-              </div>
-              <h4>Database migration scripts</h4>
-              <p>Add migration for new user preferences schema</p>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#06b6d4">R</div>
-                </div>
-                <div class="kanban-meta">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-                  Apr 1
-                </div>
-              </div>
-            </div>
+          <div class="kanban-cards" id="todo-cards" ondrop="drop(event, 'todo')" ondragover="allowDrop(event)">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
           </div>
         </div>
 
@@ -273,59 +216,8 @@
             </div>
             <span class="kanban-count">3</span>
           </div>
-          <div class="kanban-cards">
-            <div class="kanban-card highlight">
-              <div class="kanban-card-top">
-                <span class="kanban-tag pink">Frontend</span>
-                <span class="kanban-ai-badge">🤖 AI Assigned</span>
-              </div>
-              <h4>User authentication flow</h4>
-              <p>Implement OAuth 2.0 with Google & GitHub providers</p>
-              <div class="kanban-progress">
-                <div class="kanban-progress-bar" style="width: 65%"></div>
-              </div>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#7c3aed">P</div>
-                  <div class="kanban-avatar" style="background:#f472b6">S</div>
-                </div>
-                <div class="kanban-meta">65%</div>
-              </div>
-            </div>
-            <div class="kanban-card">
-              <div class="kanban-card-top">
-                <span class="kanban-tag cyan">Backend</span>
-                <span class="kanban-priority high" title="High priority">!!!</span>
-              </div>
-              <h4>Payment integration</h4>
-              <p>Stripe integration for subscription billing</p>
-              <div class="kanban-progress">
-                <div class="kanban-progress-bar" style="width: 40%"></div>
-              </div>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#06b6d4">R</div>
-                </div>
-                <div class="kanban-meta">40%</div>
-              </div>
-            </div>
-            <div class="kanban-card">
-              <div class="kanban-card-top">
-                <span class="kanban-tag purple">Design</span>
-                <span class="kanban-priority medium" title="Medium priority">!!</span>
-              </div>
-              <h4>Mobile responsive layouts</h4>
-              <p>Adapt all pages for tablet and mobile breakpoints</p>
-              <div class="kanban-progress">
-                <div class="kanban-progress-bar" style="width: 80%"></div>
-              </div>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#7c3aed">A</div>
-                </div>
-                <div class="kanban-meta">80%</div>
-              </div>
-            </div>
+          <div class="kanban-cards" id="inprogress-cards" ondrop="drop(event, 'in-progress')" ondragover="allowDrop(event)">
+            <div class="skeleton-card"></div>
           </div>
         </div>
 
@@ -338,50 +230,8 @@
             </div>
             <span class="kanban-count">3</span>
           </div>
-          <div class="kanban-cards">
-            <div class="kanban-card done">
-              <div class="kanban-card-top">
-                <span class="kanban-tag green">DevOps</span>
-                <span class="kanban-done-check">✓</span>
-              </div>
-              <h4>CI/CD pipeline setup</h4>
-              <p>GitHub Actions workflow with auto-deploy</p>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#34d399">M</div>
-                </div>
-                <div class="kanban-meta">Completed</div>
-              </div>
-            </div>
-            <div class="kanban-card done">
-              <div class="kanban-card-top">
-                <span class="kanban-tag green">DevOps</span>
-                <span class="kanban-done-check">✓</span>
-              </div>
-              <h4>Project repository setup</h4>
-              <p>Monorepo structure with linting and testing</p>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#06b6d4">R</div>
-                  <div class="kanban-avatar" style="background:#34d399">M</div>
-                </div>
-                <div class="kanban-meta">Completed</div>
-              </div>
-            </div>
-            <div class="kanban-card done">
-              <div class="kanban-card-top">
-                <span class="kanban-tag green">Design</span>
-                <span class="kanban-done-check">✓</span>
-              </div>
-              <h4>Brand guidelines v2</h4>
-              <p>Updated color palette, typography, and icon set</p>
-              <div class="kanban-card-footer">
-                <div class="kanban-avatars">
-                  <div class="kanban-avatar" style="background:#7c3aed">A</div>
-                </div>
-                <div class="kanban-meta">Completed</div>
-              </div>
-            </div>
+          <div class="kanban-cards" id="done-cards" ondrop="drop(event, 'done')" ondragover="allowDrop(event)">
+            <div class="skeleton-card"></div>
           </div>
         </div>
       </div>
@@ -502,6 +352,171 @@
 
     </div>
   </main>
+
+  <!-- Task Modal -->
+  <div id="taskModal" class="modal">
+    <div class="modal-content glass-panel">
+      <h3>Create New Task</h3>
+      <form id="taskForm">
+        <div class="form-group">
+          <label for="taskTitle">Title</label>
+          <input type="text" id="taskTitle" required placeholder="Project Kickoff">
+        </div>
+        <div class="form-group">
+          <label for="taskDesc">Description</label>
+          <textarea id="taskDesc" placeholder="Initial discussion..." rows="2"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="taskStatus">Status</label>
+            <select id="taskStatus">
+              <option value="todo">To Do</option>
+              <option value="in-progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="taskCategory">Category</label>
+            <select id="taskCategory">
+              <option value="Design">Design</option>
+              <option value="Frontend">Frontend</option>
+              <option value="Backend">Backend</option>
+              <option value="General">General</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="taskProject">Project</label>
+            <select id="taskProject">
+              <option value="">No Project</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="taskAssignedTo">Assignee</label>
+            <select id="taskAssignedTo">
+              <option value="">Unassigned</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="taskDeadline">Deadline</label>
+          <input type="date" id="taskDeadline">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="closeModal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveTaskBtn">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content delete-modal">
+      <div class="delete-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </div>
+      <h3>Delete Task?</h3>
+      <p>Are you sure you want to delete this task? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="cancelDelete">Cancel</button>
+        <button type="button" class="btn-danger" id="confirmDelete">Delete Task</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <style>
+    .modal {
+      display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal.active { display: flex; opacity: 1; }
+    
+    .modal-content { 
+      width: 100%; max-width: 440px; padding: 32px; border-radius: 24px; 
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 10, 18, 0.85);
+      backdrop-filter: blur(40px);
+      box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7);
+      transform: scale(0.92); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+    .modal.active .modal-content { transform: scale(1); }
+
+    .modal-content h3 {
+      font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; margin-bottom: 20px;
+      letter-spacing: -0.5px; line-height: 1.1;
+      background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { 
+      display: block; margin-bottom: 6px; font-size: 0.65rem; font-weight: 800; 
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; 
+    }
+    
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 12px 14px; background: rgba(255, 255, 255, 0.04); 
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px; color: var(--text-primary); font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      outline: none; transition: all 0.2s;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { 
+      border-color: var(--neon-purple); background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 15px rgba(124, 58, 237, 0.15);
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+    
+    .btn-ghost { 
+      color: var(--text-muted); padding: 10px 20px; border-radius: 10px; 
+      font-weight: 700; font-size: 0.85rem; transition: all 0.2s; 
+    }
+    .btn-ghost:hover { color: var(--text-primary); background: rgba(255, 255, 255, 0.05); }
+    
+    .btn-primary { 
+      background: var(--gradient-main); color: white; padding: 10px 28px; border-radius: 10px; 
+      font-weight: 800; font-size: 0.9rem; box-shadow: var(--glow-purple); transition: all 0.3s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4); }
+
+    .toast {
+      position: fixed; bottom: 32px; right: 32px; padding: 12px 24px; background: var(--gradient-main);
+      color: white; border-radius: 12px; transform: translateY(100px); transition: transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); z-index: 2000;
+      box-shadow: var(--glow-purple); font-weight: 600;
+    }
+    .toast.show { transform: translateY(0); }
+    
+    .kanban-card { cursor: grab; }
+    .kanban-card:active { cursor: grabbing; }
+    .kanban-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .delete-task { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; border-radius: 4px; transition: all 0.2s; }
+    .delete-task:hover { color: #ff5f56; background: rgba(255, 95, 86, 0.1); }
+
+    /* Delete Modal Specifics */
+    .delete-modal { max-width: 380px; text-align: center; padding: 40px 32px; }
+    .delete-icon-wrapper { 
+      width: 56px; height: 56px; background: rgba(255, 77, 77, 0.1); 
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+      margin: 0 auto 20px; 
+    }
+    .delete-modal h3 { font-size: 1.5rem; margin-bottom: 12px; background: none; -webkit-text-fill-color: #ff4d4d; color: #ff4d4d; }
+    .delete-modal p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 4px; }
+    
+    .btn-danger { 
+      background: linear-gradient(135deg, #ff4d4d 0%, #f43f5e 100%); 
+      color: white; padding: 10px 24px; border-radius: 10px; font-weight: 800; border: none; cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3); transition: all 0.3s;
+    }
+    .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 77, 77, 0.4); }
+  </style>
 
   <script src="js/dashboard.js"></script>
 </body>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — TaskPro</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/projects.css">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <svg viewBox="0 0 100 100" fill="none" width="22" height="22">
+            <rect x="8" y="8" width="38" height="38" rx="10" fill="white"/>
+            <rect x="54" y="8" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="8" y="54" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="54" y="54" width="38" height="38" rx="10" fill="white"/>
+          </svg>
+        </div>
+        <span class="sidebar-logo-text">TaskPro</span>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="projects.html" class="nav-item active">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        <span>Projects</span>
+      </a>
+      <a href="calendar.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>Calendar</span>
+      </a>
+      <div class="nav-section-label">Workspace</div>
+      <a href="analytics.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span>Analytics</span>
+      </a>
+      <a href="team.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Team</span>
+      </a>
+      <a href="#" class="nav-item" id="navSettings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span class="nav-label">Settings</span>
+      </a>
+      <div class="nav-spacer"></div>
+      <a href="#" class="nav-item logout" id="logoutBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="search-bar-wrap">
+        <div class="search-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Search projects by name..." id="projectSearch">
+        </div>
+        <div class="sort-wrap">
+          <label>Sort by:</label>
+          <select id="projectSort">
+            <option value="recent">Recently Created</option>
+            <option value="deadline">Upcoming Deadline</option>
+            <option value="oldest">Oldest First</option>
+          </select>
+        </div>
+      </div>
+      <div class="user-profile">
+        <div class="user-info">
+          <span class="user-name" id="userName">User Name</span>
+          <span class="user-role">Premium Member</span>
+        </div>
+        <div class="user-avatar" id="userAvatar">U</div>
+      </div>
+    </header>
+
+    <div class="content-body">
+      <div class="content-header">
+        <div class="welcome-section">
+          <h1>Your Projects</h1>
+          <p>Organize, track, and master your goals.</p>
+        </div>
+        <button class="btn btn-primary" id="newProjectBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Project
+        </button>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="project-stats-grid">
+        <div class="p-stat-card anim-fade-up" style="--delay: 0.1s">
+          <div class="p-stat-icon purple" id="totalProjectsIcon"></div>
+          <div class="p-stat-info">
+            <span class="p-stat-label">Total Projects</span>
+            <span class="p-stat-value" id="totalProjectsCount">0</span>
+          </div>
+        </div>
+        <div class="p-stat-card anim-fade-up" style="--delay: 0.15s">
+          <div class="p-stat-icon cyan" id="activeProjectsIcon"></div>
+          <div class="p-stat-info">
+            <span class="p-stat-label">Active Projects</span>
+            <span class="p-stat-value" id="activeProjectsCount">0</span>
+          </div>
+        </div>
+        <div class="p-stat-card anim-fade-up" style="--delay: 0.2s">
+          <div class="p-stat-icon green" id="completedProjectsIcon"></div>
+          <div class="p-stat-info">
+            <span class="p-stat-label">Completed</span>
+            <span class="p-stat-value" id="completedProjectsCount">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Grid -->
+      <div class="projects-grid" id="projectsGrid">
+        <!-- Project cards will be injected here -->
+        <div class="loading-state">
+           <div class="spinner"></div>
+           <p>Fetching your workspace...</p>
+        </div>
+      </div>
+
+      <!-- Empty State (Hidden) -->
+      <div class="empty-state hidden" id="emptyState">
+        <div class="empty-illustration">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>
+        </div>
+        <h3>No projects found</h3>
+        <p>Your workspace is empty. Create your first project to start tracking tasks and deadlines.</p>
+        <button class="btn btn-secondary cta-btn" onclick="document.getElementById('newProjectBtn').click()">
+          Create Your First Project
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Project Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card glass">
+      <div class="modal-header">
+        <div>
+          <h2 id="modalTitle">Create New Project</h2>
+          <p>Define your goals and set a timeline.</p>
+        </div>
+        <button class="close-modal" id="closeProjectModal">&times;</button>
+      </div>
+      <form id="projectForm">
+        <input type="hidden" id="projectId">
+        <div class="form-group">
+          <label for="projectName">Project Name <span class="required">*</span></label>
+          <input type="text" id="projectName" required placeholder="e.g., Marketing Campaign 2024">
+        </div>
+        <div class="form-group">
+          <label for="projectDesc">Description</label>
+          <textarea id="projectDesc" rows="3" placeholder="What is this project about?"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="projectColor">Theme Color</label>
+            <input type="color" id="projectColor" value="#6366f1">
+          </div>
+          <div class="form-group">
+            <label for="projectDeadline">Deadline</label>
+            <input type="date" id="projectDeadline">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" id="cancelProjectBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveProjectBtn">
+            <span>Save Project</span>
+            <div class="btn-spinner hidden"></div>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Delete Confirmation Modal (Custom) -->
+  <div id="deleteModal" class="modal-overlay">
+    <div class="modal-card glass delete-modal anim-scale-up">
+      <div class="delete-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </div>
+      <h2>Delete Project?</h2>
+      <p>Are you sure you want to delete this project? All associated tasks will be unlinked and this action cannot be undone.</p>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="cancelDeleteBtn">Keep Project</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Project</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/projects.js"></script>
+</body>
+</html>
