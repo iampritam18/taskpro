@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let teamMembers = [];
   let activities = [];
   let selectedProjectId = localStorage.getItem('selectedProjectId') || null;
+  let taskToDelete = null;
 
   // ========== INITIALIZE ==========
   async function init() {
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupKanbanDragDrop();
     setupSidebarEvents();
     setupModalEvents();
+    setupFilterEvents();
   }
 
   // ========== DATA FETCHING ==========
@@ -372,8 +374,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  async function deleteTask(id) {
-    if (!confirm('Are you sure you want to delete this task?')) return;
+  function deleteTask(id) {
+    taskToDelete = id;
+    document.getElementById('deleteModal').classList.add('active');
+  }
+
+  async function performDelete(id) {
     try {
       const res = await fetch(`${API_BASE}/tasks/${id}`, { method: 'DELETE', headers });
       if (res.ok) {
@@ -384,6 +390,17 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       showToast('Error deleting task');
     }
+  }
+
+  function setupFilterEvents() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+      btn.onclick = () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        fetchTasks(btn.textContent);
+      };
+    });
   }
 
   function setupGlobalSearch() {
@@ -495,7 +512,19 @@ document.addEventListener('DOMContentLoaded', () => {
       taskForm.reset();
     });
     taskForm?.addEventListener('submit', createTask);
-    window.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
+    window.onclick = (e) => { 
+      if (e.target.classList.contains('modal')) e.target.classList.remove('active'); 
+    };
+
+    // Delete Modal Events
+    document.getElementById('cancelDelete').onclick = () => document.getElementById('deleteModal').classList.remove('active');
+    document.getElementById('confirmDelete').onclick = async () => {
+      if (taskToDelete) {
+        await performDelete(taskToDelete);
+        document.getElementById('deleteModal').classList.remove('active');
+        taskToDelete = null;
+      }
+    };
   }
 
   function closeModal() {

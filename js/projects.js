@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let allProjects = [];
     let currentSearchTerm = '';
     let currentSort = 'recent';
+    let projectToDelete = null;
 
     // ========== FETCH & RENDER PROJECTS ==========
     async function fetchProjects() {
@@ -52,6 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('totalProjectsCount').textContent = allProjects.length;
         document.getElementById('activeProjectsCount').textContent = allProjects.filter(p => p.progress < 100).length;
         document.getElementById('completedProjectsCount').textContent = allProjects.filter(p => p.progress === 100 && p.totalTasks > 0).length;
+
+        // Inject Icons if empty
+        const totalIcon = document.getElementById('totalProjectsIcon');
+        const activeIcon = document.getElementById('activeProjectsIcon');
+        const completedIcon = document.getElementById('completedProjectsIcon');
+
+        if (totalIcon && !totalIcon.innerHTML) {
+            totalIcon.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`;
+            activeIcon.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`;
+            completedIcon.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+        }
     }
 
     function applyFiltersAndRender() {
@@ -187,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Delete Handler
         card.querySelector('.delete-proj').addEventListener('click', (e) => {
             e.stopPropagation();
-            deleteProject(project._id);
+            openDeleteModal(project._id);
         });
 
         // Edit Handler
@@ -270,22 +282,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function deleteProject(id) {
-        if (!confirm('Are you sure? All tasks will be unlinked from this project.')) return;
 
+    window.openDeleteModal = (id) => {
+        projectToDelete = id;
+        document.getElementById('deleteModal').classList.add('active');
+    };
+
+    const closeDeleteModal = () => {
+        document.getElementById('deleteModal').classList.remove('active');
+        projectToDelete = null;
+    };
+
+    const performDeleteProject = async () => {
+        if (!projectToDelete) return;
         try {
-            const res = await fetch(`${API_URL}/${id}`, {
+            const res = await fetch(`${API_URL}/${projectToDelete}`, {
                 method: 'DELETE',
                 headers
             });
             if (res.ok) {
                 showToast('Project deleted');
+                closeDeleteModal();
                 fetchProjects();
+            } else {
+                showToast('Delete failed');
             }
         } catch (err) {
-            showToast('Delete failed');
+            showToast('Connection error');
         }
-    }
+    };
 
     // ========== MODAL LOGIC ==========
     const modalOverlay = document.getElementById('modalOverlay');
@@ -323,6 +348,10 @@ document.addEventListener('DOMContentLoaded', () => {
     modalOverlay.addEventListener('click', (e) => {
         if (e.target === modalOverlay) closeModal();
     });
+
+    // Delete Modal Events
+    document.getElementById('cancelDeleteBtn').onclick = closeDeleteModal;
+    document.getElementById('confirmDeleteBtn').onclick = performDeleteProject;
 
     // Close menus on click outside
     document.addEventListener('click', () => {

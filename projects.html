@@ -103,22 +103,22 @@
 
       <!-- Stats Grid -->
       <div class="project-stats-grid">
-        <div class="p-stat-card">
-          <div class="p-stat-icon purple">📁</div>
+        <div class="p-stat-card anim-fade-up" style="--delay: 0.1s">
+          <div class="p-stat-icon purple" id="totalProjectsIcon"></div>
           <div class="p-stat-info">
             <span class="p-stat-label">Total Projects</span>
             <span class="p-stat-value" id="totalProjectsCount">0</span>
           </div>
         </div>
-        <div class="p-stat-card">
-          <div class="p-stat-icon cyan">🚀</div>
+        <div class="p-stat-card anim-fade-up" style="--delay: 0.15s">
+          <div class="p-stat-icon cyan" id="activeProjectsIcon"></div>
           <div class="p-stat-info">
             <span class="p-stat-label">Active Projects</span>
             <span class="p-stat-value" id="activeProjectsCount">0</span>
           </div>
         </div>
-        <div class="p-stat-card">
-          <div class="p-stat-icon green">✅</div>
+        <div class="p-stat-card anim-fade-up" style="--delay: 0.2s">
+          <div class="p-stat-icon green" id="completedProjectsIcon"></div>
           <div class="p-stat-info">
             <span class="p-stat-label">Completed</span>
             <span class="p-stat-value" id="completedProjectsCount">0</span>
@@ -191,6 +191,21 @@
   </div>
 
   <div id="toast" class="toast"></div>
+
+  <!-- Delete Confirmation Modal (Custom) -->
+  <div id="deleteModal" class="modal-overlay">
+    <div class="modal-card glass delete-modal anim-scale-up">
+      <div class="delete-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </div>
+      <h2>Delete Project?</h2>
+      <p>Are you sure you want to delete this project? All associated tasks will be unlinked and this action cannot be undone.</p>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="cancelDeleteBtn">Keep Project</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete Project</button>
+      </div>
+    </div>
+  </div>
 
   <script src="js/projects.js"></script>
 </body>

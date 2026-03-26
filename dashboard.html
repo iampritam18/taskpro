@@ -360,43 +360,44 @@
       <form id="taskForm">
         <div class="form-group">
           <label for="taskTitle">Title</label>
-          <input type="text" id="taskTitle" required placeholder="Enter task title">
+          <input type="text" id="taskTitle" required placeholder="Project Kickoff">
         </div>
         <div class="form-group">
           <label for="taskDesc">Description</label>
-          <textarea id="taskDesc" placeholder="Enter task description"></textarea>
+          <textarea id="taskDesc" placeholder="Initial discussion..." rows="2"></textarea>
         </div>
-        <div class="form-group">
-          <label for="taskStatus">Status</label>
-          <select id="taskStatus">
-            <option value="todo">To Do</option>
-            <option value="in-progress">In Progress</option>
-            <option value="done">Done</option>
-          </select>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="taskStatus">Status</label>
+            <select id="taskStatus">
+              <option value="todo">To Do</option>
+              <option value="in-progress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="taskCategory">Category</label>
+            <select id="taskCategory">
+              <option value="Design">Design</option>
+              <option value="Frontend">Frontend</option>
+              <option value="Backend">Backend</option>
+              <option value="General">General</option>
+            </select>
+          </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label for="taskProject">Project</label>
             <select id="taskProject">
-              <option value="">No Project (General)</option>
-              <!-- Project options will be injected here -->
+              <option value="">No Project</option>
             </select>
           </div>
           <div class="form-group">
             <label for="taskAssignedTo">Assignee</label>
             <select id="taskAssignedTo">
-              <option value="">No one (Unassigned)</option>
+              <option value="">Unassigned</option>
             </select>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="taskCategory">Category</label>
-          <select id="taskCategory">
-            <option value="Design">Design</option>
-            <option value="Frontend">Frontend</option>
-            <option value="Backend">Backend</option>
-            <option value="General">General</option>
-          </select>
         </div>
         <div class="form-group">
           <label for="taskDeadline">Deadline</label>
@@ -410,33 +411,111 @@
     </div>
   </div>
 
+  <!-- Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content delete-modal">
+      <div class="delete-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </div>
+      <h3>Delete Task?</h3>
+      <p>Are you sure you want to delete this task? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="cancelDelete">Cancel</button>
+        <button type="button" class="btn-danger" id="confirmDelete">Delete Task</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast" class="toast"></div>
 
   <style>
     .modal {
       display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s ease;
     }
-    .modal.active { display: flex; }
-    .modal-content { width: 400px; padding: 32px; border-radius: 20px; border: 1px solid var(--border); }
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); }
+    .modal.active { display: flex; opacity: 1; }
+    
+    .modal-content { 
+      width: 100%; max-width: 440px; padding: 32px; border-radius: 24px; 
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(10, 10, 18, 0.85);
+      backdrop-filter: blur(40px);
+      box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7);
+      transform: scale(0.92); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+    }
+    .modal.active .modal-content { transform: scale(1); }
+
+    .modal-content h3 {
+      font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; margin-bottom: 20px;
+      letter-spacing: -0.5px; line-height: 1.1;
+      background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { 
+      display: block; margin-bottom: 6px; font-size: 0.65rem; font-weight: 800; 
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; 
+    }
+    
     .form-group input, .form-group textarea, .form-group select {
-      width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-      border-radius: 8px; color: white; outline: none; transition: border-color 0.3s;
+      width: 100%; padding: 12px 14px; background: rgba(255, 255, 255, 0.04); 
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px; color: var(--text-primary); font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      outline: none; transition: all 0.2s;
     }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--purple); }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { 
+      border-color: var(--neon-purple); background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 15px rgba(124, 58, 237, 0.15);
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+    
+    .btn-ghost { 
+      color: var(--text-muted); padding: 10px 20px; border-radius: 10px; 
+      font-weight: 700; font-size: 0.85rem; transition: all 0.2s; 
+    }
+    .btn-ghost:hover { color: var(--text-primary); background: rgba(255, 255, 255, 0.05); }
+    
+    .btn-primary { 
+      background: var(--gradient-main); color: white; padding: 10px 28px; border-radius: 10px; 
+      font-weight: 800; font-size: 0.9rem; box-shadow: var(--glow-purple); transition: all 0.3s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4); }
+
     .toast {
-      position: fixed; bottom: 32px; right: 32px; padding: 12px 24px; background: var(--purple);
-      color: white; border-radius: 8px; transform: translateY(100px); transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28); z-index: 2000;
+      position: fixed; bottom: 32px; right: 32px; padding: 12px 24px; background: var(--gradient-main);
+      color: white; border-radius: 12px; transform: translateY(100px); transition: transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); z-index: 2000;
+      box-shadow: var(--glow-purple); font-weight: 600;
     }
     .toast.show { transform: translateY(0); }
+    
     .kanban-card { cursor: grab; }
     .kanban-card:active { cursor: grabbing; }
     .kanban-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
     .delete-task { background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; border-radius: 4px; transition: all 0.2s; }
     .delete-task:hover { color: #ff5f56; background: rgba(255, 95, 86, 0.1); }
+
+    /* Delete Modal Specifics */
+    .delete-modal { max-width: 380px; text-align: center; padding: 40px 32px; }
+    .delete-icon-wrapper { 
+      width: 56px; height: 56px; background: rgba(255, 77, 77, 0.1); 
+      border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+      margin: 0 auto 20px; 
+    }
+    .delete-modal h3 { font-size: 1.5rem; margin-bottom: 12px; background: none; -webkit-text-fill-color: #ff4d4d; color: #ff4d4d; }
+    .delete-modal p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 4px; }
+    
+    .btn-danger { 
+      background: linear-gradient(135deg, #ff4d4d 0%, #f43f5e 100%); 
+      color: white; padding: 10px 24px; border-radius: 10px; font-weight: 800; border: none; cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3); transition: all 0.3s;
+    }
+    .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 77, 77, 0.4); }
   </style>
 
   <script src="js/dashboard.js"></script>

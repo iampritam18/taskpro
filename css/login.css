@@ -423,17 +423,34 @@ a {
   right: 14px;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
-  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
   color: var(--text-muted);
   cursor: pointer;
-  font-size: 1.1rem;
-  padding: 4px;
-  transition: color var(--transition-fast);
+  padding: 6px;
+  transition: all var(--transition-fast);
+}
+
+.password-toggle svg {
+  display: block;
+  width: 18px;
+  height: 18px;
 }
 
 .password-toggle:hover {
-  color: var(--text-primary);
+  background: rgba(124, 58, 237, 0.1);
+  border-color: rgba(124, 58, 237, 0.3);
+  color: var(--neon-purple);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.2);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.password-toggle:active {
+  transform: translateY(-50%) scale(0.95);
 }
 
 /* Form extras (remember me / forgot) */

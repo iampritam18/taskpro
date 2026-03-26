@@ -132,6 +132,21 @@
 
   <div id="toast" class="toast"></div>
 
+  <!-- Delete Confirmation Modal (Custom) -->
+  <div id="deleteModal" class="modal-overlay">
+    <div class="modal-card glass-modal delete-modal anim-scale-up">
+      <div class="delete-icon-wrapper">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff4d4d" stroke-width="2.5"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+      </div>
+      <h2>Remove Team Member?</h2>
+      <p>Are you sure you want to remove this member from your workspace? They will lose access to all projects and tasks.</p>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" id="cancelDeleteBtn">Keep Member</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Remove Member</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/team.js"></script>
 </body>
 </html>
