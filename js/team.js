@@ -2,19 +2,19 @@
    TaskPro — Team Logic
    =================================== */
 
-document.addEventListener('DOMContentLoaded', () => {
-  const token = localStorage.getItem('token');
-  const user = JSON.parse(localStorage.getItem('user'));
+document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   if (!token || !user) {
-    window.location.href = 'login.html';
+    window.location.href = "login.html";
     return;
   }
 
-  const API_BASE = 'http://localhost:5001/api';
+  const API_BASE = "http://localhost:5000/api";
   const headers = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
   };
   let memberToDelete = null;
 
@@ -26,8 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setupAuthUI() {
-    document.getElementById('userName').textContent = user.name;
-    document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+    document.getElementById("userName").textContent = user.name;
+    document.getElementById("userAvatar").textContent = user.name
+      .charAt(0)
+      .toUpperCase();
   }
 
   async function fetchTeam() {
@@ -35,12 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch(`${API_BASE}/team`, { headers });
       const members = await res.json();
       renderTeam(members);
-    } catch (err) { console.error(err); }
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function renderTeam(members) {
-    const grid = document.getElementById('teamGrid');
-    grid.innerHTML = members.map(m => `
+    const grid = document.getElementById("teamGrid");
+    grid.innerHTML =
+      members
+        .map(
+          (m) => `
       <div class="member-card anim-fade-up">
         <div class="member-header">
            <div class="member-avatar" style="background: var(--gradient-main)">${m.name.charAt(0).toUpperCase()}</div>
@@ -74,98 +81,116 @@ document.addEventListener('DOMContentLoaded', () => {
            <div class="performance-track">
               <div class="performance-bar" style="width: ${m.performance}%"></div>
            </div>
-           ${user.role === 'admin' && m._id !== user.id ? `
+           ${
+             user.role === "admin" && m._id !== user.id
+               ? `
              <div class="member-actions">
                 <button class="btn-remove" onclick="openDeleteModal('${m._id}')">Remove Member</button>
              </div>
-           ` : ''}
+           `
+               : ""
+           }
         </div>
       </div>
-    `).join('') || '<div class="loading-state">No other members in team yet.</div>';
+    `,
+        )
+        .join("") ||
+      '<div class="loading-state">No other members in team yet.</div>';
   }
 
   // ========== OPERATIONS ==========
   window.openDeleteModal = (id) => {
     memberToDelete = id;
-    document.getElementById('deleteModal').classList.add('active');
+    document.getElementById("deleteModal").classList.add("active");
   };
 
   const closeDeleteModal = () => {
-    document.getElementById('deleteModal').classList.remove('active');
+    document.getElementById("deleteModal").classList.remove("active");
     memberToDelete = null;
   };
 
   const performRemoveMember = async () => {
     if (!memberToDelete) return;
     try {
-        const res = await fetch(`${API_BASE}/team/${memberToDelete}`, { method: 'DELETE', headers });
-        if (res.ok) {
-            showToast('Member removed');
-            closeDeleteModal();
-            fetchTeam();
-        } else {
-            const data = await res.json();
-            showToast(data.message);
-        }
-    } catch (err) { console.error(err); }
+      const res = await fetch(`${API_BASE}/team/${memberToDelete}`, {
+        method: "DELETE",
+        headers,
+      });
+      if (res.ok) {
+        showToast("Member removed");
+        closeDeleteModal();
+        fetchTeam();
+      } else {
+        const data = await res.json();
+        showToast(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   async function inviteMember(e) {
     e.preventDefault();
-    const email = document.getElementById('inviteEmail').value;
-    const role = document.getElementById('inviteRole').value;
+    const email = document.getElementById("inviteEmail").value;
+    const role = document.getElementById("inviteRole").value;
 
     try {
-        const res = await fetch(`${API_BASE}/team/invite`, {
-            method: 'POST',
-            headers,
-            body: JSON.stringify({ email, role })
-        });
-        const data = await res.json();
-        
-        if (res.ok) {
-            closeModal();
-            showToast('Invitation sent successfully');
-            fetchTeam();
-        } else {
-            showToast(data.message);
-        }
-    } catch (err) { console.error(err); }
+      const res = await fetch(`${API_BASE}/team/invite`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ email, role }),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        closeModal();
+        showToast("Invitation sent successfully");
+        fetchTeam();
+      } else {
+        showToast(data.message);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   // ========== MODAL LOGIC ==========
-  function openModal() { document.getElementById('inviteModal').classList.add('active'); }
-  function closeModal() { document.getElementById('inviteModal').classList.remove('active'); }
+  function openModal() {
+    document.getElementById("inviteModal").classList.add("active");
+  }
+  function closeModal() {
+    document.getElementById("inviteModal").classList.remove("active");
+  }
 
   // ========== EVENTS ==========
   function setupEventListeners() {
-    document.getElementById('inviteBtn').onclick = openModal;
-    document.getElementById('closeInviteModal').onclick = closeModal;
-    document.getElementById('cancelInviteBtn').onclick = closeModal;
-    document.getElementById('inviteForm').onsubmit = inviteMember;
+    document.getElementById("inviteBtn").onclick = openModal;
+    document.getElementById("closeInviteModal").onclick = closeModal;
+    document.getElementById("cancelInviteBtn").onclick = closeModal;
+    document.getElementById("inviteForm").onsubmit = inviteMember;
 
     // Delete Modal Events
-    document.getElementById('cancelDeleteBtn').onclick = closeDeleteModal;
-    document.getElementById('confirmDeleteBtn').onclick = performRemoveMember;
+    document.getElementById("cancelDeleteBtn").onclick = closeDeleteModal;
+    document.getElementById("confirmDeleteBtn").onclick = performRemoveMember;
 
     // Sidebar Toggle
-    const sidebar = document.getElementById('sidebar');
-    document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
+    const sidebar = document.getElementById("sidebar");
+    document.getElementById("sidebarToggle")?.addEventListener("click", () => {
+      sidebar.classList.toggle("collapsed");
     });
 
     // Logout
-    document.getElementById('logoutBtn').onclick = () => {
-        localStorage.clear();
-        window.location.href = 'login.html';
+    document.getElementById("logoutBtn").onclick = () => {
+      localStorage.clear();
+      window.location.href = "login.html";
     };
   }
 
   function showToast(msg) {
-    const t = document.getElementById('toast');
+    const t = document.getElementById("toast");
     t.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> ${msg}`;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 3000);
   }
 
   init();
