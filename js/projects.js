@@ -330,6 +330,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ========== SEARCH & SORT ==========
+    document.querySelectorAll('.nav-item').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && href !== '#' && !href.startsWith('javascript')) {
+            // Keep real links
+        } else {
+            // Placeholder toast for now if still needed, but we have real pages now
+        }
+    });
+
     document.getElementById('projectSearch').addEventListener('input', (e) => {
         currentSearchTerm = e.target.value.toLowerCase();
         applyFiltersAndRender();

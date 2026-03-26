@@ -15,6 +15,9 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/activities', require('./routes/activityRoutes'));
+app.use('/api/analytics', require('./routes/analyticsRoutes'));
+app.use('/api/team', require('./routes/teamRoutes'));
 
 const PORT = process.env.PORT || 5000;
 

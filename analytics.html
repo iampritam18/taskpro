@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — TaskPro</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/analytics.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='8' y='8' width='38' height='38' rx='10' fill='%237c3aed'/><rect x='54' y='8' width='38' height='38' rx='10' fill='%237c3aed' opacity='0.5'/><rect x='8' y='54' width='38' height='38' rx='10' fill='%237c3aed' opacity='0.5'/><rect x='54' y='54' width='38' height='38' rx='10' fill='%237c3aed'/></svg>">
+</head>
+<body>
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="dashboard.html" class="sidebar-logo">
+        <div class="sidebar-logo-icon">
+          <svg viewBox="0 0 100 100" fill="none" width="22" height="22">
+            <rect x="8" y="8" width="38" height="38" rx="10" fill="white"/>
+            <rect x="54" y="8" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="8" y="54" width="38" height="38" rx="10" fill="white" opacity="0.5"/>
+            <rect x="54" y="54" width="38" height="38" rx="10" fill="white"/>
+          </svg>
+        </div>
+        <span class="sidebar-logo-text">TaskPro</span>
+      </a>
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="projects.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        <span>Projects</span>
+      </a>
+      <a href="calendar.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>Calendar</span>
+      </a>
+
+      <div class="nav-section-label">Workspace</div>
+      <a href="analytics.html" class="nav-item active">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <span>Analytics</span>
+      </a>
+      <a href="team.html" class="nav-item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Team</span>
+      </a>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-user-avatar" id="userAvatar">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="userName">User Name</div>
+          <div class="sidebar-user-role">Premium Member</div>
+        </div>
+        <a href="#" class="sidebar-logout" id="logoutBtn" title="Logout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="searchInput" placeholder="Search analytics..." autocomplete="off">
+        <kbd>⌘K</kbd>
+      </div>
+      <div class="topbar-actions">
+         <select id="projectFilter" class="filter-select">
+            <option value="All">All Projects</option>
+         </select>
+         <button class="btn-refresh" id="refreshBtn">
+           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+           Refresh Data
+         </button>
+      </div>
+    </header>
+
+    <div class="analytics-content">
+      <div class="content-header">
+         <div class="header-text">
+            <h1>Workspace Analytics</h1>
+            <p>Track your productivity and project velocity.</p>
+         </div>
+         <div class="date-range-picker">
+            <input type="date" id="startDate">
+            <span>to</span>
+            <input type="date" id="endDate">
+         </div>
+      </div>
+
+      <!-- KPI Grid -->
+      <div class="kpi-grid">
+         <div class="kpi-card glass-panel anim-fade-up" style="--delay: 0.1s">
+            <div class="kpi-icon purple">📊</div>
+            <div class="kpi-info">
+               <span class="kpi-label">Total Tasks</span>
+               <h2 id="totalTasks">--</h2>
+            </div>
+         </div>
+         <div class="kpi-card glass-panel anim-fade-up" style="--delay: 0.2s">
+            <div class="kpi-icon green">✅</div>
+            <div class="kpi-info">
+               <span class="kpi-label">Completed</span>
+               <h2 id="completedTasks">--</h2>
+            </div>
+         </div>
+         <div class="kpi-card glass-panel anim-fade-up" style="--delay: 0.3s">
+            <div class="kpi-icon cyan">🚀</div>
+            <div class="kpi-info">
+               <span class="kpi-label">Completion Rate</span>
+               <h2 id="completionRate">--%</h2>
+            </div>
+         </div>
+         <div class="kpi-card glass-panel anim-fade-up" style="--delay: 0.4s">
+            <div class="kpi-icon red">⚠️</div>
+            <div class="kpi-info">
+               <span class="kpi-label">Overdue</span>
+               <h2 id="overdueTasks">--</h2>
+            </div>
+         </div>
+      </div>
+
+      <!-- Charts Grid -->
+      <div class="charts-grid">
+         <div class="chart-container glass-panel anim-fade-up" style="--delay: 0.5s">
+            <h3>Tasks per Status</h3>
+            <canvas id="statusChart"></canvas>
+         </div>
+         <div class="chart-container glass-panel anim-fade-up" style="--delay: 0.6s">
+            <h3>Tasks Created Over Time</h3>
+            <canvas id="timeChart"></canvas>
+         </div>
+         <div class="chart-container glass-panel full-width anim-fade-up" style="--delay: 0.7s">
+            <h3>Project Progress Velocity</h3>
+            <canvas id="projectChart"></canvas>
+         </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="js/analytics.js"></script>
+</body>
+</html>

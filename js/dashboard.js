@@ -27,14 +27,36 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========== STATE ==========
   let allTasks = [];
   let allProjects = [];
+  let teamMembers = [];
+  let activities = [];
   let selectedProjectId = localStorage.getItem('selectedProjectId') || null;
 
-  // ========== TASK FETCHING & RENDERING ==========
-  async function fetchTasks() {
+  // ========== INITIALIZE ==========
+  async function init() {
+    await fetchProjects();
+    await fetchTasks();
+    await fetchTeamMembers();
+    await fetchActivities();
+    setupGlobalSearch();
+    setupKanbanDragDrop();
+    setupSidebarEvents();
+    setupModalEvents();
+  }
+
+  // ========== DATA FETCHING ==========
+  async function fetchTasks(filterTag = 'All') {
+    showKanbanSkeletons(true);
     try {
       let url = `${API_BASE}/tasks`;
+      const queryParams = [];
+      if (selectedProjectId) queryParams.push(`projectId=${selectedProjectId}`);
+      if (filterTag !== 'All') queryParams.push(`tag=${filterTag}`);
+      
+      if (queryParams.length) {
+        url += `?${queryParams.join('&')}`;
+      }
+
       if (selectedProjectId) {
-        url += `?projectId=${selectedProjectId}`;
         updateDashboardHeader();
       } else {
         resetDashboardHeader();
@@ -46,11 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
         allTasks = data;
         renderTasks();
         updateStats();
-      } else {
-        showToast(data.message || 'Failed to fetch tasks');
       }
     } catch (err) {
-      showToast('Server error. Is the backend running?');
+      showToast('Error fetching tasks');
+    } finally {
+      showKanbanSkeletons(false);
     }
   }
 
@@ -62,11 +84,121 @@ document.addEventListener('DOMContentLoaded', () => {
         allProjects = data;
         populateProjectDropdown();
         renderSidebarProjects();
-        if (selectedProjectId) updateDashboardHeader();
       }
     } catch (err) {
       console.error('Failed to fetch projects');
     }
+  }
+
+  async function fetchTeamMembers() {
+    try {
+      const res = await fetch(`${API_BASE}/team`, { headers });
+      const data = await res.json();
+      if (res.ok) {
+        teamMembers = data;
+        renderTeamMembers();
+        populateAssigneeDropdown();
+      }
+    } catch (err) {
+      console.error('Failed to fetch team');
+    }
+  }
+
+  function populateAssigneeDropdown() {
+    const dropdown = document.getElementById('taskAssignedTo');
+    if (!dropdown) return;
+    dropdown.innerHTML = '<option value="">No one (Unassigned)</option>';
+    teamMembers.forEach(m => {
+      dropdown.innerHTML += `<option value="${m._id}">${m.name}</option>`;
+    });
+  }
+
+  async function fetchActivities() {
+    try {
+      const res = await fetch(`${API_BASE}/activities`, { headers });
+      const data = await res.json();
+      if (res.ok) {
+        activities = data;
+        renderActivities();
+      }
+    } catch (err) {
+      console.error('Failed to fetch activities');
+    }
+  }
+
+  // ========== RENDERING ==========
+  function renderTasks() {
+    const columns = {
+      'todo': document.getElementById('todo-cards'),
+      'in-progress': document.getElementById('inprogress-cards'),
+      'done': document.getElementById('done-cards')
+    };
+
+    Object.values(columns).forEach(col => {
+      const skeletons = col.querySelectorAll('.skeleton-card');
+      col.innerHTML = '';
+      skeletons.forEach(s => col.appendChild(s));
+    });
+
+    allTasks.forEach(task => {
+      const card = createTaskCard(task);
+      const col = columns[task.status];
+      if (col) col.appendChild(card);
+    });
+
+    Object.keys(columns).forEach(status => {
+      const colCards = columns[status];
+      const count = colCards.querySelectorAll('.kanban-card').length;
+      const countEl = colCards.closest('.kanban-col').querySelector('.kanban-count');
+      if (countEl) countEl.textContent = count;
+    });
+  }
+
+  function createTaskCard(task) {
+    const card = document.createElement('div');
+    card.className = 'kanban-card anim-fade-up';
+    card.draggable = true;
+    card.dataset.id = task._id;
+    
+    const colors = { design: '#f472b6', frontend: '#06b6d4', backend: '#7c3aed' };
+    const tagColor = colors[task.category?.toLowerCase()] || '#6366f1';
+    card.style.setProperty('--tag-color', tagColor);
+
+    card.innerHTML = `
+      <div class="kanban-card-top">
+        <span class="kanban-tag" style="background: ${tagColor}20; color: ${tagColor}">${task.category || 'General'}</span>
+        <button class="delete-task" data-id="${task._id}">
+           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
+      </div>
+      <h4>${task.title}</h4>
+      <p>${task.description || 'No description provided.'}</p>
+      <div class="kanban-card-footer">
+        <div class="kanban-meta">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+          ${task.deadline ? new Date(task.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'No date'}
+        </div>
+        <div class="kanban-avatars">
+           <div class="kanban-avatar" style="background: ${tagColor}" title="${task.assignedTo?.name || 'Unassigned'}">
+             ${(task.assignedTo?.name || 'U').charAt(0)}
+           </div>
+        </div>
+      </div>
+    `;
+
+    card.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', task._id);
+      card.classList.add('dragging');
+    });
+
+    card.addEventListener('dragend', () => card.classList.remove('dragging'));
+    
+    card.querySelector('.delete-task').onclick = (e) => {
+      e.stopPropagation();
+      deleteTask(task._id);
+    };
+
+    return card;
   }
 
   function renderSidebarProjects() {
@@ -95,143 +227,98 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function renderTeamMembers() {
+    const container = document.querySelector('.team-list');
+    if (!container) return;
+    container.innerHTML = teamMembers.map(member => `
+      <div class="team-member">
+        <div class="team-avatar-wrap">
+          <div class="team-avatar" style="background: var(--gradient-main)">${member.name.charAt(0)}</div>
+          <span class="team-status online"></span>
+        </div>
+        <div class="team-info">
+          <div class="team-name">${member.name}</div>
+          <div class="team-role">${member.role}</div>
+        </div>
+        <span class="team-tasks">${member.assignedCount} tasks</span>
+      </div>
+    `).join('');
+  }
+
+  function renderActivities() {
+    const container = document.querySelector('.activity-list');
+    if (!container) return;
+    container.innerHTML = activities.map(act => `
+      <div class="activity-item">
+        <div class="activity-avatar" style="background: var(--gradient-main)">${act.user.name.charAt(0)}</div>
+        <div class="activity-body">
+          <p><strong>${act.user.name}</strong> ${act.description}</p>
+          <span class="activity-time">${timeAgo(new Date(act.createdAt))}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
   function updateDashboardHeader() {
     const project = allProjects.find(p => p._id === selectedProjectId);
     if (project) {
-      document.getElementById('dashboardTitle').textContent = project.name;
-      document.getElementById('dashboardSubtitle').textContent = project.description || 'Project details and tasks';
-      document.getElementById('clearProjectFilter').classList.remove('hidden');
+      const titleEl = document.getElementById('dashboardTitle');
+      const descEl = document.getElementById('dashboardSubtitle');
+      if (titleEl) titleEl.textContent = project.name;
+      if (descEl) descEl.textContent = project.description || 'Project details and tasks';
+      document.getElementById('clearProjectFilter')?.classList.remove('hidden');
     }
   }
 
   function resetDashboardHeader() {
-    document.getElementById('dashboardTitle').innerHTML = `Welcome back, <span id="welcomeName">${user.name.split(' ')[0]}</span>`;
-    document.getElementById('dashboardSubtitle').textContent = "Here's what's happening with your projects today.";
-    document.getElementById('clearProjectFilter').classList.add('hidden');
+    const titleEl = document.getElementById('dashboardTitle');
+    if (titleEl) titleEl.innerHTML = `Welcome back, <span id="welcomeName">${user.name.split(' ')[0]}</span>`;
+    const descEl = document.getElementById('dashboardSubtitle');
+    if (descEl) descEl.textContent = "Here's what's happening with your projects today.";
+    document.getElementById('clearProjectFilter')?.classList.add('hidden');
   }
-
-  // Clear Filter
-  document.getElementById('clearProjectFilter').addEventListener('click', () => {
-    selectedProjectId = null;
-    localStorage.removeItem('selectedProjectId');
-    fetchTasks();
-    renderSidebarProjects();
-  });
 
   function populateProjectDropdown() {
     const dropdown = document.getElementById('taskProject');
     if (!dropdown) return;
-    
-    // Keep the "No Project" option
     dropdown.innerHTML = '<option value="">No Project (General)</option>';
-    
-    allProjects.forEach(project => {
-      const option = document.createElement('option');
-      option.value = project._id;
-      option.textContent = project.name;
-      if (project._id === selectedProjectId) option.selected = true;
-      dropdown.appendChild(option);
+    allProjects.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p._id;
+      opt.textContent = p.name;
+      if (p._id === selectedProjectId) opt.selected = true;
+      dropdown.appendChild(opt);
     });
-  }
-
-  function renderTasks() {
-    const columns = {
-      'todo': document.getElementById('todo-cards'),
-      'in-progress': document.getElementById('inprogress-cards'),
-      'done': document.getElementById('done-cards')
-    };
-
-    // Clear columns
-    Object.values(columns).forEach(col => col.innerHTML = '');
-
-    allTasks.forEach(task => {
-      const card = createTaskCard(task);
-      const col = columns[task.status];
-      if (col) col.appendChild(card);
-    });
-
-    // Update counts
-    document.querySelectorAll('.kanban-col').forEach(col => {
-      const cardsCol = col.querySelector('.kanban-cards');
-      if (!cardsCol) return;
-      const status = cardsCol.id.split('-')[0];
-      const count = allTasks.filter(t => t.status === (status === 'inprogress' ? 'in-progress' : status)).length;
-      const countEl = col.querySelector('.kanban-count');
-      if (countEl) countEl.textContent = count;
-    });
-  }
-
-  function createTaskCard(task) {
-    const card = document.createElement('div');
-    card.className = 'kanban-card';
-    card.draggable = true;
-    card.id = `task-${task._id}`;
-    card.dataset.id = task._id;
-
-    card.innerHTML = `
-      <div class="kanban-card-top">
-        <span class="kanban-tag ${getStatusClass(task.status)}">${task.status}</span>
-        <button class="delete-task" data-id="${task._id}" title="Delete task">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </button>
-      </div>
-      <h4>${task.title}</h4>
-      <p>${task.description || ''}</p>
-      <div class="kanban-card-footer">
-        <div class="kanban-meta">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
-          ${new Date(task.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-        </div>
-      </div>
-    `;
-
-    // Drag events
-    card.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', task._id);
-      card.classList.add('dragging');
-    });
-
-    card.addEventListener('dragend', () => {
-      card.classList.remove('dragging');
-    });
-
-    // Delete event
-    card.querySelector('.delete-task').addEventListener('click', (e) => {
-        e.stopPropagation();
-        deleteTask(task._id);
-    });
-
-    return card;
-  }
-
-  function getStatusClass(status) {
-    if (status === 'todo') return 'purple';
-    if (status === 'in-progress') return 'cyan';
-    return 'green';
   }
 
   function updateStats() {
     const total = allTasks.length;
     const inProgress = allTasks.filter(t => t.status === 'in-progress').length;
     const done = allTasks.filter(t => t.status === 'done').length;
+    const overdue = allTasks.filter(t => t.deadline && new Date(t.deadline) < new Date() && t.status !== 'done').length;
 
     const stats = {
-      'Total Tasks': total,
-      'In Progress': inProgress,
-      'Completed': done
+      'Total Tasks': { val: total, pct: total > 0 ? 80 : 0 },
+      'In Progress': { val: inProgress, pct: total > 0 ? (inProgress / total) * 100 : 0 },
+      'Completed': { val: done, pct: total > 0 ? (done / total) * 100 : 0 },
+      'Overdue': { val: overdue, pct: total > 0 ? (overdue / total) * 100 : 0 }
     };
 
     document.querySelectorAll('.stat-card').forEach(card => {
-      const label = card.querySelector('.stat-label').textContent;
-      if (stats[label] !== undefined) {
-        card.querySelector('.stat-value').dataset.target = stats[label];
+      const labelEl = card.querySelector('.stat-label');
+      if (!labelEl) return;
+      const label = labelEl.textContent;
+      if (stats[label]) {
+        const valEl = card.querySelector('.stat-value');
+        if (valEl) valEl.dataset.target = stats[label].val;
+        const barEl = card.querySelector('.stat-bar-fill');
+        if (barEl) barEl.style.width = `${stats[label].pct}%`;
       }
     });
 
     animateCounters();
   }
 
-  // ========== TASK OPERATIONS ==========
   async function createTask(e) {
     e.preventDefault();
     const btn = document.getElementById('saveTaskBtn');
@@ -242,7 +329,10 @@ document.addEventListener('DOMContentLoaded', () => {
       title: document.getElementById('taskTitle').value,
       description: document.getElementById('taskDesc').value,
       status: document.getElementById('taskStatus').value,
-      projectId: document.getElementById('taskProject').value || undefined
+      projectId: document.getElementById('taskProject').value || undefined,
+      category: document.getElementById('taskCategory').value,
+      deadline: document.getElementById('taskDeadline').value || undefined,
+      assignedTo: document.getElementById('taskAssignedTo').value || undefined
     };
 
     try {
@@ -251,46 +341,17 @@ document.addEventListener('DOMContentLoaded', () => {
         headers,
         body: JSON.stringify(newTask)
       });
-      const data = await res.json();
       if (res.ok) {
-        // If we are filtered by a different project, don't show the new task
-        if (!selectedProjectId || data.projectId === selectedProjectId) {
-            allTasks.push(data);
-            renderTasks();
-            updateStats();
-        }
-        closeModal();
         showToast('Task created successfully');
-      } else {
-        showToast(data.message || 'Failed to create task');
+        closeModal();
+        fetchTasks();
+        fetchActivities();
       }
     } catch (err) {
       showToast('Error creating task');
     } finally {
       btn.disabled = false;
       btn.textContent = 'Save Task';
-    }
-  }
-
-  async function deleteTask(id) {
-    if (!confirm('Are you sure you want to delete this task?')) return;
-
-    try {
-      const res = await fetch(`${API_BASE}/tasks/${id}`, {
-        method: 'DELETE',
-        headers
-      });
-      if (res.ok) {
-        allTasks = allTasks.filter(t => t._id !== id);
-        renderTasks();
-        updateStats();
-        showToast('Task deleted');
-      } else {
-        const data = await res.json();
-        showToast(data.message || 'Failed to delete task');
-      }
-    } catch (err) {
-      showToast('Error deleting task');
     }
   }
 
@@ -301,102 +362,184 @@ document.addEventListener('DOMContentLoaded', () => {
         headers,
         body: JSON.stringify({ status: newStatus })
       });
-      const data = await res.json();
       if (res.ok) {
-        const index = allTasks.findIndex(t => t._id === id);
-        allTasks[index] = data;
-        renderTasks();
-        updateStats();
         showToast(`Task moved to ${newStatus}`);
-      } else {
-        showToast(data.message || 'Failed to update task');
+        fetchTasks();
+        fetchActivities();
       }
     } catch (err) {
-      showToast('Error updating task');
+      showToast('Error updating status');
     }
   }
 
-  // ========== DRAG & DROP HANDLERS ==========
-  window.allowDrop = (e) => e.preventDefault();
-  
-  window.drop = (e, status) => {
-    e.preventDefault();
-    const id = e.dataTransfer.getData('text/plain');
-    const task = allTasks.find(t => t._id === id);
-    if (task && task.status !== status) {
-      updateTaskStatus(id, status);
+  async function deleteTask(id) {
+    if (!confirm('Are you sure you want to delete this task?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/tasks/${id}`, { method: 'DELETE', headers });
+      if (res.ok) {
+        showToast('Task deleted');
+        fetchTasks();
+        fetchActivities();
+      }
+    } catch (err) {
+      showToast('Error deleting task');
     }
-  };
-
-  // ========== MODAL LOGIC ==========
-  const modal = document.getElementById('taskModal');
-  const openBtn = document.getElementById('newTaskBtn');
-  const closeBtn = document.getElementById('closeModal');
-  const taskForm = document.getElementById('taskForm');
-
-  function openModal() { modal.classList.add('active'); }
-  function closeModal() { 
-    modal.classList.remove('active');
-    taskForm.reset();
   }
 
-  openBtn.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  taskForm.addEventListener('submit', createTask);
+  function setupGlobalSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const resultsPanel = document.getElementById('searchResults');
+    if (!searchInput || !resultsPanel) return;
 
-  window.onclick = (event) => {
-    if (event.target === modal) closeModal();
-  };
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      if (!term) {
+        resultsPanel.classList.add('hidden');
+        return;
+      }
 
-  // ========== SIDEBAR TOGGLE ==========
-  const sidebar = document.getElementById('sidebar');
-  const sidebarToggle = document.getElementById('sidebarToggle');
-  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const results = [
+        ...allTasks.map(t => ({ title: t.title, type: 'Task', id: t._id })),
+        ...allProjects.map(p => ({ title: p.name, type: 'Project', id: p._id })),
+        ...teamMembers.map(m => ({ title: m.name, type: 'Member', id: m._id }))
+      ].filter(r => r.title.toLowerCase().includes(term));
 
-  sidebarToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('collapsed');
-    localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-  });
+      resultsPanel.innerHTML = results.map(r => `
+        <div class="search-result-item" onclick="handleSearchResultClick('${r.type}', '${r.id}')">
+          <div class="search-result-icon">${r.type[0]}</div>
+          <div class="search-result-info">
+            <span class="search-result-title">${r.title}</span>
+            <span class="search-result-type">${r.type}</span>
+          </div>
+        </div>
+      `).join('') || '<div class="search-result-item">No results found</div>';
+      
+      resultsPanel.classList.remove('hidden');
+    });
 
-  if (localStorage.getItem('sidebarCollapsed') === 'true') {
-    sidebar.classList.add('collapsed');
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.topbar-search')) resultsPanel.classList.add('hidden');
+    });
   }
 
-  // ========== LOGOUT ==========
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.href = 'login.html';
-  });
+  window.handleSearchResultClick = (type, id) => {
+    if (type === 'Project') {
+      selectedProjectId = id;
+      localStorage.setItem('selectedProjectId', id);
+      fetchTasks();
+      renderSidebarProjects();
+    }
+    document.getElementById('searchResults').classList.add('hidden');
+    const input = document.getElementById('searchInput');
+    if (input) input.value = '';
+  };
 
-  // ========== TOAST ==========
+  function setupKanbanDragDrop() {
+    document.querySelectorAll('.kanban-cards').forEach(col => {
+      col.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        col.classList.add('drag-over');
+      });
+      col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+      col.addEventListener('drop', (e) => {
+        col.classList.remove('drag-over');
+        const taskId = e.dataTransfer.getData('text/plain');
+        const newStatus = col.id.replace('-cards', '');
+        const finalStatus = newStatus === 'inprogress' ? 'in-progress' : newStatus;
+        updateTaskStatus(taskId, finalStatus);
+      });
+    });
+  }
+
+  function setupSidebarEvents() {
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    sidebarToggle?.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+    });
+
+    document.getElementById('navMyTasks')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      e.target.closest('.nav-item').classList.add('active');
+      allTasks = allTasks.filter(t => t.userId === user.id); 
+      renderTasks();
+      showToast('Showing your tasks');
+    });
+
+    // Logout
+    document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = 'login.html';
+    });
+  }
+
+  function setupModalEvents() {
+    const modal = document.getElementById('taskModal');
+    const openBtn = document.getElementById('newTaskBtn');
+    const closeBtn = document.getElementById('closeModal');
+    const taskForm = document.getElementById('taskForm');
+
+    openBtn?.addEventListener('click', () => modal.classList.add('active'));
+    closeBtn?.addEventListener('click', () => {
+      modal.classList.remove('active');
+      taskForm.reset();
+    });
+    taskForm?.addEventListener('submit', createTask);
+    window.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
+  }
+
+  function closeModal() {
+    document.getElementById('taskModal').classList.remove('active');
+    document.getElementById('taskForm').reset();
+  }
+
+  function showKanbanSkeletons(show) {
+    document.querySelectorAll('.skeleton-card').forEach(s => s.style.display = show ? 'block' : 'none');
+  }
+
   function showToast(message) {
     const toast = document.getElementById('toast');
+    if (!toast) return;
     toast.textContent = message;
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2500);
   }
 
-  // ========== COUNTER ANIMATION ==========
-  function animateCounters() {
-    const statValues = document.querySelectorAll('.stat-value[data-target]');
-    statValues.forEach(el => {
-      const target = parseInt(el.dataset.target);
-      const duration = 1200;
-      const start = performance.now();
+  function timeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    if (seconds < 60) return 'just now';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    return date.toLocaleDateString();
+  }
 
+  function animateCounters() {
+    document.querySelectorAll('.stat-value[data-target]').forEach(el => {
+      const target = parseInt(el.dataset.target);
+      if (isNaN(target)) return;
+      const duration = 1000;
+      const start = performance.now();
       function update(now) {
         const elapsed = now - start;
         const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(target * eased);
+        el.textContent = Math.round(target * (1 - Math.pow(1 - progress, 3)));
         if (progress < 1) requestAnimationFrame(update);
       }
       requestAnimationFrame(update);
     });
   }
 
-  // ========== INITIALIZE ==========
-  fetchProjects();
-  fetchTasks();
+  init();
 });

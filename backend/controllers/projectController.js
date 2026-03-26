@@ -1,5 +1,6 @@
 const Project = require('../models/Project');
 const Task = require('../models/Task');
+const { createActivity } = require('./activityController');
 
 // Create Project
 exports.createProject = async (req, res) => {
@@ -13,6 +14,14 @@ exports.createProject = async (req, res) => {
       deadline,
       userId: req.user.id
     });
+
+    await createActivity({
+      user: req.user.id,
+      type: 'project_created',
+      description: `created project "${project.name}"`,
+      project: project._id
+    });
+
     res.status(201).json(project);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -109,6 +118,14 @@ exports.updateProject = async (req, res) => {
       req.body,
       { new: true }
     );
+
+    await createActivity({
+      user: req.user.id,
+      type: 'project_updated',
+      description: `updated project "${updatedProject.name}"`,
+      project: updatedProject._id
+    });
+
     res.json(updatedProject);
   } catch (error) {
     res.status(500).json({ message: error.message });
